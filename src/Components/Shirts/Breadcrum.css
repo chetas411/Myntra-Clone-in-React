@@ -1,0 +1,27 @@
+#product-header {
+    padding: 0 1.5rem 1.5rem;
+}
+
+#product-header > div:nth-of-type(1) {
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    color: #282c3f;
+}
+
+#product-header > div:nth-of-type(2) {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #282c3f;
+}
+
+#product-header > div:nth-of-type(2) > h3 {
+    margin-right: 0.25rem;
+    font-weight: 600;
+}
+
+#product-header > div:nth-of-type(2) p {
+    color: #878b94;
+    font-size: 1rem;
+    font-weight: 300;
+}
