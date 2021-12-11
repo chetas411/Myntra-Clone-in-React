@@ -115,6 +115,26 @@ export const productSlice = createSlice({
     addDiscount: (state, action) => {
       state.current.filterQueries.discount = action.payload;
     },
+    sortByDiscount: (state, action) => {
+      const currProducts = state.current.products;
+      state.current.products = currProducts.sort(
+        (a, b) =>
+          parseInt(b.discountDisplayLabel.substring(1, 3)) -
+          parseInt(a.discountDisplayLabel.substring(1, 3))
+      );
+    },
+    sortByIncreasingPrice: (state, action) => {
+      const currProducts = state.current.products;
+      state.current.products = currProducts.sort((a, b) => a.price - b.price);
+    },
+    sortByDecreasingPrice: (state, action) => {
+      const currProducts = state.current.products;
+      state.current.products = currProducts.sort((a, b) => b.price - a.price);
+    },
+    sortByRating: (state, action) => {
+      const currProducts = state.current.products;
+      state.current.products = currProducts.sort((a, b) => b.rating - a.rating);
+    },
   },
 });
 
@@ -128,6 +148,10 @@ export const {
   addPrice,
   removePrice,
   applyFilters,
+  sortByDiscount,
+  sortByIncreasingPrice,
+  sortByDecreasingPrice,
+  sortByRating
 } = productSlice.actions;
 
 export default productSlice.reducer;

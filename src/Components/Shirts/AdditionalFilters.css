@@ -54,6 +54,7 @@
 #sort-input > span {
     margin-left: 0.5rem;
     font-weight: 700;
+    text-transform: capitalize;
 }
 
 #sort-input > img {
