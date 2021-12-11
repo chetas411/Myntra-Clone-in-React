@@ -1,7 +1,9 @@
 #product-section {
-    /* border: 1px solid red; */
+    width: 100%;
+    border-top: 1px solid #e9e9ed;
+    margin-top: 5px;
     padding: 1.5rem;
     display: grid;
-    grid-template-columns: repeat(5,auto);
+    grid-template-columns: repeat(5,1fr);
     gap: 2.25rem;
 }

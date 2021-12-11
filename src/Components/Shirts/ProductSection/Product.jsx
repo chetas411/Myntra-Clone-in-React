@@ -1,4 +1,4 @@
-import React, { useState,useRef,forwardRef, useEffect } from "react";
+import React, { useState,useRef,forwardRef } from "react";
 import Carousel from "react-elastic-carousel";
 import HeartIcon from '../../../assets/images/heart-icon.svg'
 import "./Product.css";
@@ -10,7 +10,7 @@ const Pagination = ({ pages, activePage, onClick }) => {
                 width: "100%",
                 zIndex: "4",
                 backgroundColor: "#ffffff",
-                marginTop: "-30px"
+                marginTop: "-30px",
             }}
         >
             <div
@@ -18,7 +18,7 @@ const Pagination = ({ pages, activePage, onClick }) => {
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
-                    padding: "0.5rem",
+                    padding: "0.75rem",
                     marginBottom: "0.35rem",
                     zIndex: "4",
                     backgroundColor: "#ffffff",
@@ -58,7 +58,7 @@ const ImageCarousel = forwardRef(({ images,show },ref) => {
         }
     }
     return (
-        <div>
+        <div style={{width: "212px" ,height: "282px"}}>
             <Carousel
                 renderPagination={Pagination}
                 pagination={show}
@@ -78,38 +78,29 @@ const ImageCarousel = forwardRef(({ images,show },ref) => {
     );
 });
 
-const Product = () => {
+const Product = ({data}) => {
     const [showCarousel, setShowCarousel] = useState(false);
     const carousel = useRef();
-    const imgsURL = [
-        "http://assets.myntassets.com/assets/images/1291760/2017/12/5/11512469309123-Highlander-Dark-Green-Slim-Fit-Casual-Shirt-5071512469308877-1.jpg",
-        "http://assets.myntassets.com/assets/images/1291760/2017/12/5/11512469309046-Highlander-Dark-Green-Slim-Fit-Casual-Shirt-5071512469308877-4.jpg",
-        "http://assets.myntassets.com/assets/images/1291760/2017/12/5/11512469309068-Highlander-Dark-Green-Slim-Fit-Casual-Shirt-5071512469308877-3.jpg",
-        "http://assets.myntassets.com/assets/images/1291760/2017/12/5/11512469309092-Highlander-Dark-Green-Slim-Fit-Casual-Shirt-5071512469308877-2.jpg",
-        "http://assets.myntassets.com/assets/images/1291760/2017/12/5/11512469309020-Highlander-Dark-Green-Slim-Fit-Casual-Shirt-5071512469308877-5.jpg"
-
-    ];
+    const ImgUrls = [...data.images.map(({src})=> src)]
     
     return (
         <div className="product-card" onMouseEnter={() => setShowCarousel(true)} onMouseLeave={() => setShowCarousel(false)}>
-            <ImageCarousel ref={carousel} show={showCarousel} images={imgsURL} />
-            <div className="product-info">
-                {!showCarousel && <h3>jainish</h3>}
+            <ImageCarousel ref={carousel} show={showCarousel} images={ImgUrls} />
+            <div className="product-info" style={{marginTop: (showCarousel)? "1.3rem" : 0}}>
+                {!showCarousel && <h3>{data.brand}</h3>}
                 {showCarousel?(
                     <p className="product-sizes">Sizes:
-                        <span>32, </span>
-                        <span>36, </span>
-                        <span>38, </span>
-                        <span>40, </span>
-                        <span>42 </span>
+                        <span>
+                            {data.sizes.split(',').splice(0,6).join(', ')}
+                        </span>
                     </p>
                 ):(
-                        <p>men formal shirt</p>
+                        <p>{data.additionalInfo}</p>
                 )}
                 <div className="product-price">
-                    <p>Rs. 519</p>
-                    <span>Rs. 1299</span>
-                    <span>(60% OFF)</span>
+                    <p>{`Rs. ${data.price}`}</p>
+                    <span>{`Rs. ${data.mrp}`}</span>
+                    <span>{`${data.discountDisplayLabel}`}</span>
                 </div>
             </div>
         </div>

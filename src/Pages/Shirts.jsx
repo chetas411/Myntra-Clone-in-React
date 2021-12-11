@@ -19,7 +19,6 @@ const Shirts = () => {
                 <div
                     style={{
                         width: "84%",
-                        // border: "1px solid red",
                     }}
                 >
                     <AdditionalFilters />

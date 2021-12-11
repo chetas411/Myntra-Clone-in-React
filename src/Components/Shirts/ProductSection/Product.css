@@ -1,6 +1,7 @@
-/* .product-card {
-    border: 1px solid blue;
-} */
+.product-card {
+    /* border: 1px solid blue; */
+    width: 212px;
+}
 
 .product-card:hover {
     box-shadow: 0 2px 16px 4px rgb(40 44 63 / 7%);
@@ -8,7 +9,7 @@
 }
 
 .product-info {
-    padding: 0.5rem  0.5rem 0.5rem;
+    padding: 1.5rem  0.5rem 0.5rem;
 }
 
 .product-info > h3 {
@@ -28,6 +29,7 @@
 .product-price {
     display: flex;
     align-items: flex-end;
+    overflow: hidden;
 }
 
 .product-price > p {

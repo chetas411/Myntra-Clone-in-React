@@ -1,42 +1,84 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addGender,
+  addBrand,
+  removeBrand,
+  addColor,
+  removeColor,
+  addDiscount,
+  addPrice,
+  removePrice,
+  applyFilters
+} from "../../redux/Products";
 import "./Filters.css";
 
 const Filters = () => {
-  const genders = ["men", "women", "boys", "girls"];
-  const brands = [
-    { name: "Roadster", qty: 2741 },
-    { name: "Blackberrys", qty: 3211 },
-    { name: "Allen Solly", qty: 1541 },
-    { name: "Louis Phillipe Sport", qty: 301 },
-    { name: "Louis Phillipe", qty: 4741 },
-    { name: "ColorPlus", qty: 2385 },
-  ];
-  const prices = [
-    { from: 199, to: 5899, qty: 69040 },
-    { from: 5899, to: 11599, qty: 200 },
-    { from: 11599, to: 17299, qty: 6 },
-  ];
-  const colors = [
-    { name: "blue", color: "#0074d9", qty: 15543 },
-    { name: "white", color: "#ffffff", qty: 9563 },
-    { name: "navy blue", color: "#3c4477", qty: 7718 },
-    { name: "black", color: "#000000", qty: 4266 },
-    { name: "green", color: "#5eb160", qty: 3672 },
-  ];
-  const discounts = ["10","20","30","40","50","60","70","80"];
+  const [radio, setRadio] = useState({
+    men: false,
+    women: false,
+  });
+  const [discount,setDiscount] = useState(0)
+  const data = useSelector((state) => state.product.current.filters);
+  const filterState = useSelector((state) => state.product.current.filterQueries)
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (radio.men) {
+      dispatch(addGender("men"));
+    } else if (radio.women) {
+      dispatch(addGender("women"));
+    } else {
+      dispatch(addGender("neutral"));
+    }
+  }, [radio]);
+  useEffect(()=>{
+    dispatch(addDiscount(discount))
+  }, [discount])
+  useEffect(()=>{
+    dispatch(applyFilters())
+  },[filterState])
+  const filterData = data.reduce((obj, item) => {
+    return {
+      ...obj,
+      [item.id]: item,
+    };
+  }, {});
+  const genders = filterData["Gender"].filterValues;
+  const brands = filterData["Brand"].filterValues;
+  const prices = filterData["Price"].filterValues;
+  const Colors = filterData["Color"].filterValues;
+  const Discounts = filterData["Discount Range"].filterValues;
+
   return (
     <div id="filters">
       <h3>Filters</h3>
       <div>
-        {genders.map((gen, idx) => {
+        {genders.map(({ value }, idx) => {
           return (
-            <div className="radio-select" key={gen}>
-              <input type="radio" id={gen} name="gender" value={gen} />
+            <div className="radio-select" key={value}>
+              <input
+                type="radio"
+                id={value}
+                name="gender"
+                value={value}
+                checked={radio[value]}
+                onClick={(e) => {
+                  if (radio[value]) {
+                    setRadio((prev) => {
+                      return { ...prev, [value]: false };
+                    });
+                  } else {
+                    setRadio((prev) => {
+                      return { men: false, women: false, [value]: true };
+                    });
+                  }
+                }}
+              />
               <label
                 style={{ fontSize: "0.9rem", fontWeight: 700 }}
-                htmlFor={gen}
+                htmlFor={value}
               >
-                {gen}
+                {value}
               </label>
             </div>
           );
@@ -44,31 +86,51 @@ const Filters = () => {
       </div>
       <div>
         <h3>Brand</h3>
-        {brands.map(({ name, qty }, idx) => {
+        {brands.slice(0, 6).map(({ value, count }, idx) => {
           return (
-            <div className="radio-select" key={name}>
-              <input type="checkbox" id={name} name="gender" value={name} />
-              <label htmlFor={name}>
-                {name} <span>{`(${qty})`}</span>
+            <div className="radio-select" key={value}>
+              <input
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    dispatch(addBrand(value));
+                  } else {
+                    dispatch(removeBrand(value));
+                  }
+                }}
+                type="checkbox"
+                id={value}
+                name="gender"
+                value={value}
+              />
+              <label htmlFor={value}>
+                {value} <span>{`(${count})`}</span>
               </label>
             </div>
           );
         })}
-        <p className="more-btn">+647 more</p>
+        <p className="more-btn">{`+${brands.length - 6} more`}</p>
       </div>
       <div>
         <h3>Price</h3>
-        {prices.map(({ from, to, qty }, idx) => {
+        {prices.map(({ start, end, count, id }, idx) => {
           return (
-            <div className="radio-select" key={`${from}-${to}`}>
+            <div className="radio-select" key={id}>
               <input
                 type="checkbox"
-                id={`${from}-${to}`}
+                id={`${start}-${end}`}
                 name="gender"
-                value={`${from}-${to}`}
+                value={`${start}-${end}`}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    dispatch(addPrice({start,end}))
+                  }
+                  else {
+                    dispatch(removePrice({start,end}))
+                  }
+                }}
               />
-              <label htmlFor={`${from}-${to}`}>
-                {`Rs. ${from} to Rs. ${to}`} <span>{`(${qty})`}</span>
+              <label htmlFor={`${start}-${end}`}>
+                {`Rs. ${start} to Rs. ${end}`} <span>{`(${count})`}</span>
               </label>
             </div>
           );
@@ -76,39 +138,60 @@ const Filters = () => {
       </div>
       <div>
         <h3>Color</h3>
-        {colors.map(({ name, color, qty }, idx) => {
+        {Colors.slice(0, 7).map(({ meta, value, count }, idx) => {
           return (
-            <div className="radio-select" key={name}>
-              <input type="checkbox" id={name} name="gender" value={name} />
+            <div className="radio-select" key={value}>
+              <input
+                type="checkbox"
+                id={value}
+                name="gender"
+                value={value}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    dispatch(addColor(value));
+                  } else {
+                    dispatch(removeColor(value));
+                  }
+                }}
+              />
               <label
                 style={{ display: "flex", alignItems: "center" }}
-                htmlFor={name}
+                htmlFor={value}
               >
                 <div
                   style={{
                     width: "15px",
                     height: "15px",
                     marginRight: "0.5rem",
-                    backgroundColor: color,
+                    backgroundColor: `#${meta}`,
                     borderRadius: "50%",
-                    border: (color === "#ffffff")? "1px solid #d6d6d6" : "none"
+                    border: meta === "#ffffff" ? "1px solid #d6d6d6" : "none",
                   }}
                 ></div>{" "}
-                {name} <span>{`(${qty})`}</span>
+                {value} <span>{`(${count})`}</span>
               </label>
             </div>
           );
         })}
-        <p className="more-btn">+647 more</p>
+        <p className="more-btn">{`+${Colors.length - 7} more`}</p>
       </div>
-      <div style={{paddingBottom: "3.5rem"}}>
+      <div style={{ paddingBottom: "3.5rem" }}>
         <h3>Discount Range</h3>
-        {discounts.map((val, idx) => {
+        {Discounts.map(({ id, start }, idx) => {
           return (
-            <div className="radio-select" key={val}>
-              <input type="checkbox" id={val} name="gender" value={val} />
-              <label style={{textTransform: "lowercase"}} htmlFor={val}>
-                {val}% and above
+            <div className="radio-select" key={id}>
+              <input type="checkbox" id={start} name="gender" value={start}
+                checked = {start === discount}
+                onClick={(e) => {
+                  if (discount === start) {
+                    setDiscount(0)
+                  } else {
+                    setDiscount(start)
+                  }
+                }}
+              />
+              <label style={{ textTransform: "lowercase" }} htmlFor={start}>
+                {start}% and above
               </label>
             </div>
           );
