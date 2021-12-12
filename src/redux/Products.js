@@ -167,43 +167,70 @@ export const productSlice = createSlice({
     },
     addItemToBag: (state, action) => {
       const currBag = state.current.bag;
-      let present = false
-      for(let i=0;i<currBag.length;i++){
-        if(action.payload.item.productId === currBag[i].item.productId && action.payload.size === currBag[i].size){
-          ++currBag[i].count
-          present = true
-          break
+      let present = false;
+      for (let i = 0; i < currBag.length; i++) {
+        if (
+          action.payload.item.productId === currBag[i].item.productId &&
+          action.payload.size === currBag[i].size
+        ) {
+          ++currBag[i].count;
+          present = true;
+          break;
         }
       }
-      if(!present){
+      if (!present) {
         state.current.bag.push({
           item: action.payload.item,
           size: action.payload.size,
-          count: 1
+          count: 1,
         });
       }
-      state.current.bag = currBag
+      state.current.bag = currBag;
     },
     removeItemFromBag: (state, action) => {
       const currBag = state.current.bag;
-      // let present = false
       let idx = -1;
       for (let i = 0; i < currBag.length; i++) {
-        if (action.payload.item.productId === currBag[i].item.productId && action.payload.size === currBag[i].size) {
-          idx = i
-          break
+        if (
+          action.payload.item.productId === currBag[i].item.productId &&
+          action.payload.size === currBag[i].size
+        ) {
+          idx = i;
+          break;
         }
       }
-      if(currBag[idx].count === 1){
-        currBag.splice(idx,1)
+      if (currBag[idx].count === 1) {
+        currBag.splice(idx, 1);
+      } else {
+        --currBag[idx].count;
       }
-      else{
-        --currBag[idx].count
-      }
-      state.current.bag = currBag
+      state.current.bag = currBag;
     },
     toggleBagView: (state, action) => {
       state.current.showBagView = action.payload;
+    },
+    searchProducts: (state, action) => {
+      if(action.payload === ""){
+        state.current.products = [...state.neutral]
+      }
+      else{
+        const keywords = action.payload.toLowerCase().split(" ");
+        const currProducts = [...state.neutral];
+        const resultProducts = [];
+        currProducts.forEach((el) => {
+          const text = el.productName.toLocaleLowerCase();
+          let count = 0;
+          keywords.forEach((word) => {
+            const query = new RegExp(word, 'g')
+            const res = text.match(query)
+            count = (res !== null && res.length >= 1) ? count + 1 : count
+          });
+          if (count === keywords.length) {
+            resultProducts.push(el)
+          }
+        });
+        state.current.products = resultProducts
+      }
     },
   },
 });
@@ -230,6 +257,7 @@ export const {
   addItemToBag,
   removeItemFromBag,
   toggleBagView,
+  searchProducts
 } = productSlice.actions;
 
 export default productSlice.reducer;
