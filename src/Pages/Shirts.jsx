@@ -26,6 +26,20 @@ const Shirts = () => {
                     
                 </div>
             </main>
+            <aside
+                style={{
+                    width: "500px",
+                    height: "100vh",
+                    position: "fixed", 
+                    top: 0, 
+                    right: 0, 
+                    zIndex: 100,
+                    backgroundColor: "#ffffff",
+                    display: "none"
+                }}
+            >
+
+            </aside>
         </Layout>
     )
 }

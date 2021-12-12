@@ -1,6 +1,9 @@
-import React, { useState,useRef,forwardRef } from "react";
+import React, { useState,useRef,forwardRef,useEffect } from "react";
 import Carousel from "react-elastic-carousel";
+import { useSelector,useDispatch } from "react-redux";
+import { addToWishlist,removeFromWishList } from "../../../redux/Products";
 import HeartIcon from '../../../assets/images/heart-icon.svg'
+import HeartIconFilled from '../../../assets/images/heart-icon-filled.svg'
 import "./Product.css";
 
 const Pagination = ({ pages, activePage, onClick }) => {
@@ -19,7 +22,7 @@ const Pagination = ({ pages, activePage, onClick }) => {
                     display: "flex",
                     justifyContent: "center",
                     padding: "0.75rem",
-                    marginBottom: "0.35rem",
+                    marginBottom: "1px",
                     zIndex: "4",
                     backgroundColor: "#ffffff",
                 }}
@@ -42,10 +45,10 @@ const Pagination = ({ pages, activePage, onClick }) => {
                     );
                 })}
             </div>
-            <button className="wishlist-btn">
+            {/* <button className="wishlist-btn">
                 <img src={HeartIcon} width={20} alt="heart icon" />
                 Wishlist
-            </button>
+            </button> */}
         </div>
         
     );
@@ -80,6 +83,9 @@ const ImageCarousel = forwardRef(({ images,show },ref) => {
 
 const Product = ({data}) => {
     const [showCarousel, setShowCarousel] = useState(false);
+    const [inWishList,setInWishList] = useState(data.inWishList === true)
+    const currWishlist = useSelector((state) => state.product.current.wishlist)
+    const dispatch = useDispatch()
     const carousel = useRef();
     const ImgUrls = [...data.images.map(({src})=> src)]
     
@@ -89,11 +95,32 @@ const Product = ({data}) => {
             <div className="product-info" style={{marginTop: (showCarousel)? "1.3rem" : 0}}>
                 {!showCarousel && <h3>{data.brand}</h3>}
                 {showCarousel?(
-                    <p className="product-sizes">Sizes:
-                        <span>
-                            {data.sizes.split(',').splice(0,6).join(', ')}
-                        </span>
-                    </p>
+                    <>
+                        <button 
+                            onClick={() => {
+                                if (currWishlist.includes(data.productId)){
+                                    dispatch(removeFromWishList(data.productId))
+                                }
+                                else{
+                                    dispatch(addToWishlist(data.productId))
+                                }
+                            }} 
+                            className="wishlist-btn">
+                            {currWishlist.includes(data.productId)?
+                                <img src={HeartIconFilled} width={20} alt="heart icon" />
+                                :
+                                <img src={HeartIcon} width={20} alt="heart icon" />
+                            }
+                            {/* <img src={HeartIcon} width={20} alt="heart icon" />
+                            <img src={HeartIconFilled} width={20} alt="heart icon" /> */}
+                            Wishlist
+                        </button>
+                        <p className="product-sizes">Sizes:
+                            <span>
+                                {data.sizes.split(',').splice(0, 6).join(', ')}
+                            </span>
+                        </p>
+                    </>
                 ):(
                         <p>{data.additionalInfo}</p>
                 )}

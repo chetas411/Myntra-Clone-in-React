@@ -13,6 +13,7 @@ const initialState = {
         return el.id === "Price" || el.id === "Discount Range";
       }),
     ],
+    wishlist: [],
     filterQueries: {
       gender: "neutral",
       brand: [],
@@ -135,6 +136,16 @@ export const productSlice = createSlice({
       const currProducts = state.current.products;
       state.current.products = currProducts.sort((a, b) => b.rating - a.rating);
     },
+    addToWishlist: (state,action) => {
+      state.current.wishlist.push(action.payload)
+    },
+    removeFromWishList: (state,action) => {
+      const currWishlist = state.current.wishlist;
+      state.current.wishlist = currWishlist.filter((el) => {
+        return (el !== action.payload)
+      })
+    }
+
   },
 });
 
@@ -151,7 +162,9 @@ export const {
   sortByDiscount,
   sortByIncreasingPrice,
   sortByDecreasingPrice,
-  sortByRating
+  sortByRating,
+  addToWishlist,
+  removeFromWishList
 } = productSlice.actions;
 
 export default productSlice.reducer;
