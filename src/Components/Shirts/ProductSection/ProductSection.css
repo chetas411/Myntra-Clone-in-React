@@ -1,9 +1,33 @@
 #product-section {
-    width: 100%;
+    width: fit-content;
     border-top: 1px solid #e9e9ed;
     margin-top: 5px;
     padding: 1.5rem;
     display: grid;
     grid-template-columns: repeat(5,1fr);
     gap: 2.25rem;
+}
+
+@media screen and (max-width: 1200px){
+    #product-section {
+        grid-template-columns: repeat(4,1fr);
+    }
+}
+
+@media screen and (max-width: 900px){
+    #product-section {
+        grid-template-columns: repeat(3,1fr);
+    }
+}
+
+@media screen and (max-width: 750px){
+    #product-section {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media screen and (max-width: 500px){
+    #product-section {
+        grid-template-columns: 1fr
+    }
 }

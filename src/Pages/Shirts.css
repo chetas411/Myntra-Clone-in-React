@@ -1,0 +1,20 @@
+#main-page {
+    width: 84%;
+}
+
+@media screen and (max-width: 1200px) {
+    #main-page {
+        width: 80%;
+    }
+}
+@media screen and (max-width: 900px) {
+    #main-page {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    #main-page {
+        width: 50%;
+    }
+}

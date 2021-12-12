@@ -7,9 +7,10 @@
     top: 0;
     left: 0;
     width: 100%;
+    padding: 0 3.5rem;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: flex-start;
     background-color: #ffffff;
     box-shadow: 0 4px 12px 0 rgb(0 0 0 / 5%);
     z-index: 10;
@@ -18,11 +19,11 @@
 #logo {
     /* border: 1px solid green; */
     padding-top: 0.75rem;
+    margin-right: 1rem;
 }
 
 .tabs {
     display: flex;
-    /* border: 1px solid pink; */
 }
 
 .tab {
@@ -40,6 +41,8 @@
 #search-bar {
     display: flex;
     align-items: stretch;
+    margin-left: auto;
+    margin-right: 1rem;
 }
 
 #search-bar div {

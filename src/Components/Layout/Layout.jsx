@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { searchProducts } from "../../redux/Products";
+import { searchProducts,toggleBagView } from "../../redux/Products";
 import BagView from "./BagView";
 import Logo from "../../assets/images/logo.jpg";
 import SearchIcon from "../../assets/images/search-icon.svg";
@@ -41,11 +41,11 @@ const Layout = ({ children, horizontalPadding }) => {
               Kids
             </a>
           </div>
-          <div>
+          {/* <div>
             <a className="tab" href="/">
               Home & Living
             </a>
-          </div>
+          </div> */}
           <div>
             <a className="tab" href="/">
               Beauty
@@ -72,7 +72,7 @@ const Layout = ({ children, horizontalPadding }) => {
             <img width="20" src={HeartIcon} alt="profile" />
             <p>Wishlist</p>
           </div>
-          <div className="tab-btn">
+          <div onClick={() => dispatch(toggleBagView(true))} className="tab-btn">
             <img width="20" src={BagIcon} alt="profile" />
             <p>Bag</p>
           </div>

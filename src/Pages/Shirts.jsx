@@ -6,6 +6,7 @@ import Filters from "../Components/Shirts/Filters";
 import AdditionalFilters from "../Components/Shirts/AdditionalFilters";
 import ProductSection from "../Components/Shirts/ProductSection/ProductSection";
 import SimilarProducts from "../Components/Shirts/SimilarProducts";
+import './Shirts.css'
 
 const Shirts = () => {
   const showSimilar = useSelector(
@@ -25,9 +26,8 @@ const Shirts = () => {
       >
         <Filters />
         <div
-          style={{
-            width: "84%",
-          }}
+          id="main-page"
+          
         >
           <AdditionalFilters />
           <ProductSection />

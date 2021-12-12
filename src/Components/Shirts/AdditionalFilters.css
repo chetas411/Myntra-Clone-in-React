@@ -83,3 +83,9 @@
 #sort-list > li:hover {
     background-color: #f4f4f5;
 }
+
+@media screen and (max-width: 900px) {
+    #filter-tabs {
+        display: none;
+    }
+}

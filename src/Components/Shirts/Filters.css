@@ -63,3 +63,27 @@
     font-size: 0.9rem;
     cursor: pointer;
 }
+
+@media screen and (max-width: 1200px) {
+    #filters {
+        width: 20%;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    #filters {
+        width: 28%;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    #filters {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    #filters {
+        width: 50%;
+    }
+}
