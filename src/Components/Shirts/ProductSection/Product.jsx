@@ -1,7 +1,7 @@
 import React, { useState,useRef,forwardRef,useEffect } from "react";
 import Carousel from "react-elastic-carousel";
 import { useSelector,useDispatch } from "react-redux";
-import { addToWishlist,removeFromWishList } from "../../../redux/Products";
+import { addToWishlist, removeFromWishList, getSimilarProducts, toggleShowSimilarProducts } from "../../../redux/Products";
 import HeartIcon from '../../../assets/images/heart-icon.svg'
 import HeartIconFilled from '../../../assets/images/heart-icon-filled.svg'
 import "./Product.css";
@@ -88,9 +88,14 @@ const Product = ({data}) => {
     const dispatch = useDispatch()
     const carousel = useRef();
     const ImgUrls = [...data.images.map(({src})=> src)]
+    const similarProductsHandler = () => {
+        dispatch(getSimilarProducts({ info: data.additionalInfo, id: data.productId }))
+        dispatch(toggleShowSimilarProducts(true))
+    }
     
     return (
         <div className="product-card" onMouseEnter={() => setShowCarousel(true)} onMouseLeave={() => setShowCarousel(false)}>
+            {showCarousel && <button onClick={similarProductsHandler} className="similar-product-btn">View Similar</button>}
             <ImageCarousel ref={carousel} show={showCarousel} images={ImgUrls} />
             <div className="product-info" style={{marginTop: (showCarousel)? "1.3rem" : 0}}>
                 {!showCarousel && <h3>{data.brand}</h3>}
@@ -111,8 +116,6 @@ const Product = ({data}) => {
                                 :
                                 <img src={HeartIcon} width={20} alt="heart icon" />
                             }
-                            {/* <img src={HeartIcon} width={20} alt="heart icon" />
-                            <img src={HeartIconFilled} width={20} alt="heart icon" /> */}
                             Wishlist
                         </button>
                         <p className="product-sizes">Sizes:

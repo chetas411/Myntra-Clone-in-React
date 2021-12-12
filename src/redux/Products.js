@@ -21,6 +21,8 @@ const initialState = {
       price: [],
       discount: 0,
     },
+    similarProducts: [],
+    showSimilarProducts: false
   },
   men: MenData.products,
   women: WomenData.products,
@@ -144,6 +146,15 @@ export const productSlice = createSlice({
       state.current.wishlist = currWishlist.filter((el) => {
         return (el !== action.payload)
       })
+    },
+    toggleShowSimilarProducts: (state,action) => {
+      state.current.showSimilarProducts = action.payload
+    },
+    getSimilarProducts: (state,action) => {
+      const currSimilar = state.current.products.filter((el)=>{
+        return (el.additionalInfo === action.payload.info && el.productId !== action.payload.id)
+      })
+      state.current.similarProducts = currSimilar
     }
 
   },
@@ -164,7 +175,9 @@ export const {
   sortByDecreasingPrice,
   sortByRating,
   addToWishlist,
-  removeFromWishList
+  removeFromWishList,
+  getSimilarProducts,
+  toggleShowSimilarProducts
 } = productSlice.actions;
 
 export default productSlice.reducer;

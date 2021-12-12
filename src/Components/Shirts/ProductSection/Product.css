@@ -1,6 +1,23 @@
 .product-card {
     /* border: 1px solid blue; */
     width: 212px;
+    position: relative;
+}
+
+.similar-product-btn {
+    position: absolute;
+    top: 220px;
+    right: 10px;
+    z-index: 1000;
+    padding: 0.5rem;
+    color: #ff3f6c;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: #ffffff;
+    outline: none;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
 }
 
 .product-card:hover {

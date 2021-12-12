@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import Layout from '../Components/Layout/Layout'
 import Breadcrum from '../Components/Shirts/Breadcrum'
 import Filters from '../Components/Shirts/Filters'
 import AdditionalFilters from '../Components/Shirts/AdditionalFilters'
 import ProductSection from '../Components/Shirts/ProductSection/ProductSection'
+import SimilarProducts from '../Components/Shirts/SimilarProducts'
 
 const Shirts = () => {
+    const showSimilar = useSelector((state) => state.product.current.showSimilarProducts)
     return (
         <Layout>
             <Breadcrum />
@@ -26,20 +29,7 @@ const Shirts = () => {
                     
                 </div>
             </main>
-            <aside
-                style={{
-                    width: "500px",
-                    height: "100vh",
-                    position: "fixed", 
-                    top: 0, 
-                    right: 0, 
-                    zIndex: 100,
-                    backgroundColor: "#ffffff",
-                    display: "none"
-                }}
-            >
-
-            </aside>
+            <SimilarProducts show={showSimilar} />
         </Layout>
     )
 }
