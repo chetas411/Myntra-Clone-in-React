@@ -85,7 +85,7 @@
 
 .wishlist-btn {
     width: 90%;
-    z-index: 1000000;
+    z-index: 10;
     display: flex;
     margin: auto auto;
     margin-top: -40px;

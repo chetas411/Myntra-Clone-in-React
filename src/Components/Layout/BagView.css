@@ -1,0 +1,125 @@
+#screen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000ba;
+    z-index: 1000;
+}
+
+#screen-overlay > div {
+    position: relative;
+    width: 80%;
+    height: 80vh;
+    padding: 1rem;
+    background-color: #ffffff;
+}
+
+#screen-overlay > div > h3 {
+    margin-bottom: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    color: #ff3f6c;
+}
+
+#screen-overlay > div > button {
+    position: absolute;
+    bottom: 1rem;
+    right:1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    background-color: #ff3e6c;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    border-radius: 0.35rem;
+    cursor: pointer;
+}
+
+#bag-items{
+    width: 100%;
+    height: 60vh;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 2rem;
+    /* border: 1px solid black; */
+    overflow-y: auto;
+}
+
+.bag-items-info {
+    display: flex;
+    height: fit-content;
+    /* border: 1px solid red; */
+}
+
+.bag-items-info > div {
+    padding-left: 1rem;
+}
+
+.bag-items-info > div > h3 {
+    margin-bottom: 0.1rem;
+}
+
+.bag-items-info > div > p {
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+    font-weight: 300;
+    text-transform: capitalize;
+    color: #282c3f;
+}
+
+.bag-items-info > div > div {
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+
+.bag-items-info > div > div > p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-right: 0.3rem;
+}
+
+.bag-items-info > div > div > span:nth-of-type(1) {
+    font-size: 0.75rem;
+    color: #7e818c;
+    text-decoration: line-through;
+    margin-right: 0.3rem;
+}
+
+.bag-items-info > div > div > span:nth-of-type(2) {
+    font-size: 0.8rem;
+    color: #ff905a;
+}
+
+.bag-actions > button {
+    margin-right: 0.5rem;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.bag-actions > button:nth-of-type(1) {
+    background-color: #ff3e6c;
+}
+
+.bag-actions > button:nth-of-type(2) {
+    background-color: #000000
+}
+
+
+
+

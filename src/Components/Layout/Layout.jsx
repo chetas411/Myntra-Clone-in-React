@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import BagView from "./BagView";
 import Logo from "../../assets/images/logo.jpg";
 import SearchIcon from "../../assets/images/search-icon.svg";
 import ProfileIcon from "../../assets/images/profile-icon.svg";
@@ -7,6 +9,7 @@ import BagIcon from "../../assets/images/bag-icon.svg";
 import "./Layout.css";
 
 const Layout = ({ children, horizontalPadding }) => {
+  const showBag = useSelector((state) => state.product.current.showBagView)
   return (
     <div
       style={{ padding: `0 ${horizontalPadding ? "1.75rem" : 0}` }}
@@ -67,6 +70,7 @@ const Layout = ({ children, horizontalPadding }) => {
           </div>
         </div>
       </nav>
+      {showBag && <BagView />}
       <section className="main">
         {children}
       </section>

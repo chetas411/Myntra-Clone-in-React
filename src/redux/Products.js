@@ -22,7 +22,10 @@ const initialState = {
       discount: 0,
     },
     similarProducts: [],
-    showSimilarProducts: false
+    showSimilarProducts: false,
+    selectedProduct: {},
+    bag: [],
+    showBagView: false,
   },
   men: MenData.products,
   women: WomenData.products,
@@ -138,25 +141,70 @@ export const productSlice = createSlice({
       const currProducts = state.current.products;
       state.current.products = currProducts.sort((a, b) => b.rating - a.rating);
     },
-    addToWishlist: (state,action) => {
-      state.current.wishlist.push(action.payload)
+    addToWishlist: (state, action) => {
+      state.current.wishlist.push(action.payload);
     },
-    removeFromWishList: (state,action) => {
+    removeFromWishList: (state, action) => {
       const currWishlist = state.current.wishlist;
       state.current.wishlist = currWishlist.filter((el) => {
-        return (el !== action.payload)
-      })
+        return el !== action.payload;
+      });
     },
-    toggleShowSimilarProducts: (state,action) => {
-      state.current.showSimilarProducts = action.payload
+    toggleShowSimilarProducts: (state, action) => {
+      state.current.showSimilarProducts = action.payload;
     },
-    getSimilarProducts: (state,action) => {
-      const currSimilar = state.current.products.filter((el)=>{
-        return (el.additionalInfo === action.payload.info && el.productId !== action.payload.id)
-      })
-      state.current.similarProducts = currSimilar
-    }
-
+    getSimilarProducts: (state, action) => {
+      const currSimilar = state.current.products.filter((el) => {
+        return (
+          el.additionalInfo === action.payload.info &&
+          el.productId !== action.payload.id
+        );
+      });
+      state.current.similarProducts = currSimilar;
+    },
+    selectProduct: (state, action) => {
+      state.current.selectedProduct = action.payload;
+    },
+    addItemToBag: (state, action) => {
+      const currBag = state.current.bag;
+      let present = false
+      for(let i=0;i<currBag.length;i++){
+        if(action.payload.item.productId === currBag[i].item.productId && action.payload.size === currBag[i].size){
+          ++currBag[i].count
+          present = true
+          break
+        }
+      }
+      if(!present){
+        state.current.bag.push({
+          item: action.payload.item,
+          size: action.payload.size,
+          count: 1
+        });
+      }
+      state.current.bag = currBag
+    },
+    removeItemFromBag: (state, action) => {
+      const currBag = state.current.bag;
+      // let present = false
+      let idx = -1;
+      for (let i = 0; i < currBag.length; i++) {
+        if (action.payload.item.productId === currBag[i].item.productId && action.payload.size === currBag[i].size) {
+          idx = i
+          break
+        }
+      }
+      if(currBag[idx].count === 1){
+        currBag.splice(idx,1)
+      }
+      else{
+        --currBag[idx].count
+      }
+      state.current.bag = currBag
+    },
+    toggleBagView: (state, action) => {
+      state.current.showBagView = action.payload;
+    },
   },
 });
 
@@ -177,7 +225,11 @@ export const {
   addToWishlist,
   removeFromWishList,
   getSimilarProducts,
-  toggleShowSimilarProducts
+  toggleShowSimilarProducts,
+  selectProduct,
+  addItemToBag,
+  removeItemFromBag,
+  toggleBagView,
 } = productSlice.actions;
 
 export default productSlice.reducer;

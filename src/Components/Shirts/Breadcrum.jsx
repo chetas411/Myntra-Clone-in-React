@@ -2,17 +2,17 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import './Breadcrum.css'
 
-const Breadcrum = () => {
+const Breadcrum = ({showQty,children}) => {
     const productsQty = useSelector((state) => state.product.current.products.length) 
     return (
         <header id="product-header">
             <div>
-                <a href='/'>Home</a> / <a href='/'>Clothing</a> / <span style={{fontWeight: 700}}>Shirts For Men & Women</span>
+                {children}
             </div>
-            <div>
+            {showQty && <div>
                 <h3>Shirts For Men & Women</h3>
                 <p>{`- ${productsQty} items`}</p>
-            </div>
+            </div>}
         </header>
     )
 }

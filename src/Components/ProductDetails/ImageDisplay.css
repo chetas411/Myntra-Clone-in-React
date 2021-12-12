@@ -1,0 +1,11 @@
+#image-display {
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 1rem;
+    /* border: 1px solid black; */
+}
+
+#image-display > img {
+    cursor: pointer;
+}
