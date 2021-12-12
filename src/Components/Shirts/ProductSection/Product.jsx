@@ -61,7 +61,7 @@ const ImageCarousel = forwardRef(({ images,show },ref) => {
         }
     }
     return (
-        <div style={{width: "212px" ,height: "282px"}}>
+        <div style={{width: "212px" }}>
             <Carousel
                 renderPagination={Pagination}
                 pagination={show}
