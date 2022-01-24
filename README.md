@@ -1,6 +1,5 @@
 # Myntra-Clone-in-React
-Assignment for Frontend Developer Intern at GoComet. 
-
+Implementation of Product page of Myntra in React with vanilla CSS.
 # Tech Stack
 ReactJS, Redux
 
