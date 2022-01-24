@@ -1,5 +1,5 @@
 # Myntra-Clone-in-React
-Implementation of Product page of Myntra in React with vanilla CSS.
+Implementation of Product page of Myntra with filters and sorting functionalities along with cart in React with vanilla CSS.
 # Tech Stack
 ReactJS, Redux
 
